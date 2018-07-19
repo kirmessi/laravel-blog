@@ -20,7 +20,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Users</li>
+              <li class="breadcrumb-item active">Permissions</li>
             </ol>
           </div>
         </div>
@@ -34,8 +34,8 @@
      
 <div class="card">
             <div class="card-header">
-             <div class="pull-left"><h3 class="card-title">All users</h3></div>
-              <div class="pull-right"><a href="{{ route('user.create') }}" class="btn btn-success">Add New</a></div>
+             <div class="pull-left"><h3 class="card-title">All permissions</h3></div>
+              <div class="pull-right"><a href="{{ route('permission.create') }}" class="btn btn-success">Add New</a></div>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -43,20 +43,22 @@
                 <thead>
                 <tr>
                   <th>S.Name</th>
-                  <th>User Name</th>
+                  <th>Permission Name</th>
+                  <th>Permission For</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
               
-                   @foreach ($users as $user) 
+                   @foreach ($permissions as $permission) 
                   <tr>
                   <td>{{ $loop->index+1 }}</td>
-                  <td>{{ $user->name }}</td>
-                  <td><a href="{{ route('user.edit', $user->id) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                  <td>{{ $permission->name }}</td>
+                  <td>{{ $permission->for }}</td>
+                  <td><a href="{{ route('permission.edit', $permission->id) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
                   <td>
-                  <form id="delete-form-{{$user->id}}" action="{{ route('user.destroy', $user->id) }}" method="post" style="dispaly:none">
+                  <form id="delete-form-{{$permission->id}}" action="{{ route('permission.destroy', $permission->id) }}" method="post" style="dispaly:none">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
                     </form>
@@ -68,7 +70,7 @@
 
                   event.preventDefault();
 
-                  document.getElementById('delete-form-{{ $user->id }}').submit();
+                  document.getElementById('delete-form-{{ $permission->id }}').submit();
 
                  } 
 
@@ -85,7 +87,8 @@
                 <tfoot>
                 <tr>
                   <th>S.Name</th>
-                  <th>User Name</th>
+                  <th>Permission Name</th>
+                   <th>Permission For</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>

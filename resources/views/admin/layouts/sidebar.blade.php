@@ -14,7 +14,13 @@
           <img src="{{asset('admin/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Kirill</a>
+          <a href="#" class="d-block"> {{Auth::user()->name}}</a>
+        </div>
+            <div class="logout" style="margin-top: -3px;">
+            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
         </div>
       </div>
 
@@ -49,7 +55,19 @@
                   <p>Users</p>
                 </a>
               </li>
+                <li class="nav-item">
+                <a href="{{ route('role.index') }}" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Roles</p>
+                </a>
+              </li>
             
+               <li class="nav-item">
+                <a href="{{ route('permission.index') }}" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>Permissions</p>
+                </a>
+              </li>
      
 
 

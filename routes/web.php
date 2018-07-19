@@ -31,8 +31,25 @@ Route::group(['namespace'=>'Admin'],function(){
 
 	Route::resource('admin-panel/user','UserController');
 
+	//Roles Routes
+
+	Route::resource('admin-panel/role','RoleController');
+
+	//Permission Routes
+
+	Route::resource('admin-panel/permission','PermissionController');
+
+	Route::get('admin-panel','Auth\LoginController@showLoginForm')->name('admin.login');
+	Route::post('admin-panel','Auth\LoginController@login');
+
+
+
 });
 
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

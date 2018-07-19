@@ -10,6 +10,13 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -55,7 +62,14 @@ class PostController extends Controller
 
         ]);
 
+
+        if ($request->hasFile('image')) {
+
+              $imageNme = $request->image->store('public');
+        }
+       
        $post = new post;
+       $psot->image = $imageNme;
        $post->title = $request->title;
        $post->subtitle = $request->subtitle;
        $post->slug = $request->slug;
@@ -116,19 +130,17 @@ class PostController extends Controller
 
         'body' => 'required',
 
+      //  'image' => 'required',
+
         ]);
 
-     if ($request->file('image')) {
-       return 'yes';
-    }
-    else
-    {
-      return 'false';
-    }
+        if ($request->hasFile('image')) {
 
+              $imageNme = $request->image->store('public');
+        }
        
-
        $post = post::find($id);
+       $psot->image = $imageNme;
        $post->title = $request->title;
        $post->subtitle = $request->subtitle;
        $post->slug = $request->slug;

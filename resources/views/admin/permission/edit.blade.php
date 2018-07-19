@@ -2,20 +2,18 @@
 
 
 @section('main-content')
-
-<div class="content-wrapper">
+   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Blank Page</h1>
+            <h1>Permissions Editor</h1>
           </div>
-          
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Blank Page</li>
+              <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+              <li class="breadcrumb-item active">Permissions</li>
             </ol>
           </div>
         </div>
@@ -24,38 +22,57 @@
 
     <!-- Main content -->
     <section class="content">
-
-      <!-- Default box -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Title</h3>
-
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-              <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-              <i class="fa fa-times"></i></button>
-          </div>
-        </div>
-        <div class="card-body">
-        
-   
-          
-       
-
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Permission</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              @include('admin.messages.errors')
               
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          Footer
-        </div>
-        <!-- /.card-footer-->
-      </div>
-      <!-- /.card -->
+              <form permission="form" action="{{ route('permission.update', $permission->id ) }}" method="post">
+              {{ csrf_field() }}
+              {{method_field('PUT')}}
+                <div class="card-body">
+                <div class="col-lg-offset-3 col-lg-6 pull-left">
+                  <div class="form-group">
+                    <label for="name">Permission</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ $permission->name}}"  placeholder="Enter Permission">
+                  </div>
+                  </div>
+                    <div class="col-lg-offset-3 col-lg-6 pull-right">
+                     <div class="form-group">
+                      <label for="for">Permission For</label>
+                      <select name="for" id="for" class="form-control">
+                       <option value="{{ $permission->for}}" selected>{{ $permission->for}}</option>
+                      <option value="User">User</option>
+                      <option value="Post">Post</option>
+                      <option value="Other">Other</option>
+                      </select>
+                  </div>
+                </div>
 
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <div class="pull-right"><button type="submit" class="btn btn-primary">Submit</button></div>
+                     <div class="pull-left"><a href="{{ route('permission.index') }}" class="btn btn-warning">Back</a></div>
+                </div>
+
+              </form>
+            </div>
+
+        </div>
+        <!-- /.col-->
+      </div>
+      <!-- ./row -->
     </section>
     <!-- /.content -->
   </div>
+
 @endsection
 
 @section('footerSection')

@@ -21,11 +21,20 @@
             <li class="nav-item">
               <a class="nav-link" href="contact.html">Contact</a>
             </li>
+             <li class="nav-item">
+            @if (Auth::guest())
+                <a class="nav-link" href="{{ route('login')}}">Login</a>
+            @else
+            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+              @endif
+            </li>
           </ul>
         </div>
       </div>
     </nav>
-
+   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
     <!-- Page Header -->
     <header class="masthead" style="background-image: url(@yield('bg-img'))">
       <div class="overlay"></div>

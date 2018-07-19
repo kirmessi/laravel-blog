@@ -37,7 +37,7 @@
               <!-- form start -->
     @include('admin.messages.errors')
 
-              <form role="form" action="{{ route('post.store') }}" method="post">
+              <form role="form" action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
               {{csrf_field() }}
                 <div class="card-body">
                 <div class="col-lg-6 pull-left">

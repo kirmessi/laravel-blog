@@ -39,23 +39,23 @@
                 <div class="col-lg-offset-3 col-lg-6 pull-left">
                   <div class="form-group">
                     <label for="name">User Name</label>
-                    <input type="text" class="form-control" id="name" name="name"  placeholder="Enter user Name">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}"  placeholder="Enter user Name">
                   </div>
                    <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email"  placeholder="Enter user Email">
+                    <input type="text" class="form-control" id="email" name="email" value="{{ $user->email }}"  placeholder="Enter user Email">
                   </div>
                   </div>
                   <div class="col-lg-offset-3 col-lg-6 pull-left">
 
                     <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password"  placeholder="Enter user Password">
+                    <input type="password" class="form-control" id="password" name="password" value="{{ $user->password }}"  placeholder="Enter user Password">
                   </div>
 
                     <div class="form-group">
                     <label for="confirm_password">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password"  placeholder="Confirm user Password">
+                    <input type="password" class="form-control" id="confirm_password"  name="confirm_password"  placeholder="Confirm user Password">
                   </div>
                 </div>
             <div class="clear" style="clear:both;"></div>

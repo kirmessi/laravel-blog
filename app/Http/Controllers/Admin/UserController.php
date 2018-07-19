@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\admin\admin;
+use App\Model\admin\role;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,9 @@ class UserController extends Controller
      */
     public function index()
     {
-       return view('admin/user/index');
+        $users = admin::all();
+
+       return view('admin/user/index', compact('users'));
     }
 
     /**
@@ -24,7 +35,8 @@ class UserController extends Controller
      */
     public function create()
     {
-         return view('admin/user/create');
+        $roles = role::all();
+         return view('admin/user/create',compact('roles'));
     }
 
     /**
@@ -35,7 +47,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $this->validate($request,[
+
+        'name' => 'required',
+
+        'email' => 'required',
+
+        'password' => 'required',
+
+
+        ]);
+
+       $user = new admin;
+       $user->name = $request->name;
+       $user->email = $request->email;
+       $user->password = $request->password;
+       $user->save();
+
+       session()->flash('message','Admin Created Successfully');
+       return redirect(route('user.index'));
     }
 
     /**
@@ -46,7 +76,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $roles = role::all();
+        $user = admin::find($id);
+        return view('admin/user/edit', compact('user', 'roles'));
     }
 
     /**
@@ -56,8 +88,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+
+    {   $roles = role::all();
+        $user = admin::find($id);
+        return view('admin/user/edit', compact('user','roles'));
     }
 
     /**
@@ -69,7 +103,24 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $user = admin::find($id);
+        $this->validate($request,[
+
+        'name' => 'required',
+
+        'email' => 'required',
+
+        'password' => 'required',
+
+        ]);
+
+       $user->name = $request->name;
+       $user->email = $request->email;
+       $user->password = $request->password;
+       $user->save();
+
+       session()->flash('message','Admin Updated Successfully');
+       return redirect(route('user.index'));
     }
 
     /**
@@ -80,6 +131,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = admin::find($id);
+        $user->delete();
+        session()->flash('message','Admin Deleted Successfully');
+        return redirect(route('user.index'));       
     }
 }

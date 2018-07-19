@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Model\user\category;
+use App\Model\admin\Permission;
+use App\Model\admin\role;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class RoleController extends Controller
 {
 
-    public function __construct()
+       public function __construct()
     {
         $this->middleware('auth:admin');
     }
-
 
 
     /**
@@ -23,8 +23,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = category::all();
-        return view('admin/category/index', compact('categories'));
+        $roles = role::all();
+        return view('admin/role/index', compact('roles'));
     }
 
     /**
@@ -34,7 +34,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-         return view('admin/category/category');
+        $permissions = Permission::all();
+         return view('admin/role/role',compact('permissions'));
     }
 
     /**
@@ -45,23 +46,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-      $this->validate($request,[
+         $this->validate($request,[
 
-        'name' => 'required',
+        'name' => 'required|max:50|unique:roles',
 
-        'slug' => 'required',
+         ]);
 
-        ]);
-
-       $category = new category;
-       $category->name = $request->name;
-       $category->slug = $request->slug;
-       $category->save();
-
-       session()->flash('message','Category Created Successfully');
-       return redirect(route('category.index'));
-
-
+       $role = new role;
+       $role->name = $request->name;
+       $role->save();
+       session()->flash('message','Role Created Successfully');
+       return redirect(route('role.index'));
     }
 
     /**
@@ -72,8 +67,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = category::find($id);
-        return view('admin/category/edit', compact('categories'));
+         $role = role::find($id);
+        return view('admin/role/edit', compact('role'));
     }
 
     /**
@@ -83,9 +78,9 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $category = category::find($id);
-        return view('admin/category/edit', compact('category'));
+    {   $permissions = Permission::all();
+         $role = role::find($id);
+        return view('admin/role/edit', compact('role','permissions'));
     }
 
     /**
@@ -96,22 +91,22 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
+
     {
-        $category = category::find($id);
+
+
+        $role = role::find($id);
         $this->validate($request,[
 
         'name' => 'required',
-
-        'slug' => 'required',
-
+      
         ]);
 
-       $category->name = $request->name;
-       $category->slug = $request->slug;
-       $category->save();
-
-       session()->flash('message','Category Updated Successfully');
-       return redirect(route('category.index'));
+       $role->name = $request->name;
+       $role->save();
+       $role->permissions()->sync($request->permission);
+       session()->flash('message','Role Updated Successfully');
+       return redirect(route('role.index'));
     }
 
     /**
@@ -122,9 +117,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = category::find($id);
-        $category->delete();
-        session()->flash('message','Category Deleted Successfully');
-        return redirect(route('category.index'));          
+        $role = role::find($id);
+        $role->delete();
+        session()->flash('message','Role Deleted Successfully');
+        return redirect(route('role.index'));          
     }
+   
 }
