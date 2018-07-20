@@ -49,21 +49,18 @@ class UserController extends Controller
     {
          $this->validate($request,[
 
-        'name' => 'required',
-
-        'email' => 'required',
-
-        'password' => 'required',
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:admins',
+        'phone' => 'required|numeric|unique:admins',
+        'password' => 'required|string|min:6|confirmed',
 
 
         ]);
 
        $user = new admin;
-       $user->name = $request->name;
-       $user->email = $request->email;
-       $user->password = $request->password;
-       $user->save();
-
+       $request['password'] = bcrypt($request->password);
+       $user = admin::create($request->all());
+       $user->roles()->sync($request->role);
        session()->flash('message','Admin Created Successfully');
        return redirect(route('user.index'));
     }
@@ -103,22 +100,22 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $user = admin::find($id);
+        $user = admin::find($id);
         $this->validate($request,[
 
-        'name' => 'required',
-
-        'email' => 'required',
-
-        'password' => 'required',
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255',
+        'phone' => 'required|numeric',
 
         ]);
 
+      
        $user->name = $request->name;
        $user->email = $request->email;
-       $user->password = $request->password;
+       $user->status = $request->status;
+       $user->phone = $request->phone;
        $user->save();
-
+       $user->roles()->sync($request->role);
        session()->flash('message','Admin Updated Successfully');
        return redirect(route('user.index'));
     }

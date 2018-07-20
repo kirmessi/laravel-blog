@@ -39,31 +39,36 @@
                 <div class="col-lg-offset-3 col-lg-6 pull-left">
                   <div class="form-group">
                     <label for="name">User Name</label>
-                    <input type="text" class="form-control" id="name" name="name"  placeholder="Enter user Name">
+                    <input type="text" class="form-control" id="name" name="name" value = "{{ old('name') }}"  placeholder="Enter user Name">
                   </div>
                    <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email"  placeholder="Enter user Email">
+                    <input type="text" class="form-control" id="email" name="email" value = "{{ old('email') }}"  placeholder="Enter user Email">
                   </div>
+                  <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" value = "{{ old('phone') }}"  placeholder="Enter user Phone">
+                  </div>
+                  
                   </div>
                   <div class="col-lg-offset-3 col-lg-6 pull-left">
 
                     <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password"  placeholder="Enter user Password">
+                    <input type="password" class="form-control" id="password" value = "{{ old('password') }}" name="password"  placeholder="Enter user Password">
                   </div>
 
                     <div class="form-group">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password"  placeholder="Confirm user Password">
+                    <label for="password_confirmation">Confirm Password</label>
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"  placeholder="Confirm user Password">
                   </div>
-                </div>
-            <div class="clear" style="clear:both;"></div>
-            <div class="form-group col-lg-12">
-           <div><label>Assign Role</label></div>
+                       <div class="form-group col-lg-12">
+           <div class="pull-left"><label>Assign Role</label></div>
+           <div class="pull-right"><label>Status</label></div>
+           <div class="clear" style="clear:both;"></div>
             @foreach ($roles as $role)
 
-                       <div class="col-lg-offset-3 pull-left" style="padding-right:30px">
+                       <div class="col-lg-offset-3 " style="padding-right:30px;display:inline-block;">
               <label class="">
                     <div class="icheckbox_flat-green checked" aria-checked="true" aria-disabled="false" style="position: relative;"><input type="checkbox" class="flat-red" name="role[]" value="{{$role->id}}" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
                   </label>
@@ -72,8 +77,17 @@
               
             @endforeach
 
-
+                <div class="col-lg-offset-3 pull-right" style="padding-left:30px;display:inline-block;">
+                  
+                    <label class="">
+                    <div class="icheckbox_flat-green" aria-checked="true" aria-disabled="false" style="position: relative;"><input type="checkbox" class="flat-red" name="status" @if(old('status') ==1) checked @endif value="1" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                  </label>
+                 Status
+                  </div>
             </div>
+                </div>
+            <div class="clear" style="clear:both;"></div>
+       
           </div>
                 <!-- /.card-body -->
 

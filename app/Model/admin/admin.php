@@ -7,16 +7,24 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class admin extends Authenticatable
 {
-    use Notifiable;
+   use Notifiable;
 
-protected $guard = 'admin';
-        /**
+   public function roles()
+   {
+       return $this->belongsToMany('App\Model\admin\role');
+   }
+
+
+
+
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','status','phone',
     ];
 
     /**
