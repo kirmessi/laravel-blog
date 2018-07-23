@@ -16,8 +16,6 @@ class admin extends Authenticatable
 
 
 
-
-
     /**
      * The attributes that are mass assignable.
      *

@@ -3,6 +3,7 @@
 namespace App\Model\user;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class post extends Model
 {
@@ -25,4 +26,30 @@ class post extends Model
    	return 'slug';
 
    }
+
+     public function getCreatedAtAttribute($value)
+   {
+
+      return Carbon::parse($value)->diffForHumans();
+      
+
+   }
+
+
+   public function likes()
+   {
+
+      return $this->hasMany('App\Model\user\like');
+
+   }
+
+  public function getSlugAttribute($value)
+
+   {
+
+      return route('post',$value);
+      
+
+   }
+
 }

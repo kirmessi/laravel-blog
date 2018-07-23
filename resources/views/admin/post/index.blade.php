@@ -54,7 +54,9 @@
 <div class="card">
             <div class="card-header">
              <div class="pull-left"><h3 class="card-title">All Posts</h3></div>
-              <div class="pull-right"><a href="{{ route('post.create') }}" class="btn btn-success">Add New</a></div>
+            @can('posts.create', Auth::user())
+            <div class="pull-right"><a href="{{ route('post.create') }}" class="btn btn-success">Add New</a></div>
+            @endcan  
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -65,9 +67,10 @@
                   <th>Post Title</th>
                   <th>Post SubTitle</th>
                   <th>Slug</th>
+                  <th>Status</th>
                   <th>Created at</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
+                  @can('posts.update', Auth::user())<th>Edit</th>@endcan
+                  @can('posts.update', Auth::user())<th>Delete</th>@endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -78,9 +81,13 @@
                   <td>{{ $post->title }}</td>
                   <td>{{ $post->subtitle }}</td>
                   <td>{{ $post->slug }}</td>
+                 <td>{{ $post->status? 'Published' : 'Pending' }}</td>
                   <td>{{ $post->created_at }}</td>
-                  <td><a href="{{ route('post.edit', $post->id) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
-                  <td>
+                   @can('posts.update', Auth::user())
+                 <td><a href="{{ route('post.edit', $post->id) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                   @endcan
+                    <td>
+                     @can('posts.delete', Auth::user())
                   <form id="delete-form-{{$post->id}}" action="{{ route('post.destroy', $post->id) }}" method="post" style="dispaly:none">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
@@ -104,6 +111,7 @@
                  }"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
 
                   </td>
+                  @endcan
                 </tr>
                    @endforeach
                 </tbody>
@@ -113,9 +121,10 @@
                   <th>Post Title</th>
                   <th>Post SubTitle</th>
                   <th>Slug</th>
+                  <th>Status</th>
                   <th>Created at</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
+                  @can('posts.update', Auth::user())<th>Edit</th>@endcan
+                  @can('posts.update', Auth::user())<th>Delete</th>@endcan
                 </tr>
                 </tfoot>
               </table>

@@ -7,6 +7,7 @@ use App\Model\user\category;
 use App\Model\user\post;
 use App\Model\user\tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -37,9 +38,13 @@ class PostController extends Controller
     public function create()
 
     {
+
+      if (Auth::user()->can('posts.create')) {
         $tags = tag::all();
         $categories = category::all();
         return view('admin/post/post',compact('tags','categories'));
+}
+        return redirect (route('admin.home'));
     }
 
     /**
@@ -65,11 +70,11 @@ class PostController extends Controller
 
         if ($request->hasFile('image')) {
 
-              $imageNme = $request->image->store('public');
+              $imageName = $request->image->store('public');
         }
        
        $post = new post;
-       $psot->image = $imageNme;
+       $post->image = $imageName;
        $post->title = $request->title;
        $post->subtitle = $request->subtitle;
        $post->slug = $request->slug;
@@ -103,10 +108,13 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+      if (Auth::user()->can('posts.update')) {
        $post = post::with('tags','categories')->where('id',$id)->first();
         $tags = tag::all();
         $categories = category::all();
         return view('admin/post/edit',compact('tags','categories','post'));
+      }
+      return redirect (route('admin.home'));
     }
 
     /**
@@ -136,11 +144,11 @@ class PostController extends Controller
 
         if ($request->hasFile('image')) {
 
-              $imageNme = $request->image->store('public');
+              $imageName = $request->image->store('public');
         }
        
        $post = post::find($id);
-       $psot->image = $imageNme;
+       $post->image = $imageName;
        $post->title = $request->title;
        $post->subtitle = $request->subtitle;
        $post->slug = $request->slug;

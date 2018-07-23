@@ -35,7 +35,9 @@
 <div class="card">
             <div class="card-header">
              <div class="pull-left"><h3 class="card-title">All users</h3></div>
+             @can('users.create', Auth::user())
               <div class="pull-right"><a href="{{ route('user.create') }}" class="btn btn-success">Add New</a></div>
+              @endcan
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -45,8 +47,9 @@
                   <th>S.Name</th>
                   <th>User Name</th>
                   <th>Assigned Roles</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
+                  <th>Status</th>
+                  @can('users.update', Auth::user())<th>Edit</th>@endcan
+                  @can('users.delete', Auth::user())<th>Delete</th>@endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -63,7 +66,11 @@
 
                   @endforeach
                   </td>
+                  <td>{{ $user->status? 'Active' : 'Not Active' }}</td>
+                   @can('users.update', Auth::user())
                   <td><a href="{{ route('user.edit', $user->id) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>
+                  @endcan
+                   @can('users.delete', Auth::user())
                   <td>
                   <form id="delete-form-{{$user->id}}" action="{{ route('user.destroy', $user->id) }}" method="post" style="dispaly:none">
                     {{ csrf_field() }}
@@ -88,6 +95,7 @@
                  }"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
 
                   </td>
+                  @endcan
                 </tr>
                    @endforeach
                 </tbody>
@@ -96,8 +104,9 @@
                   <th>S.Name</th>
                   <th>User Name</th>
                   <th>Assigned Role</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
+                  <th>Status</th>
+                  @can('users.update', Auth::user())<th>Edit</th>@endcan
+                  @can('users.delete', Auth::user())<th>Delete</th>@endcan
                 </tr>
                 </tfoot>
               </table>

@@ -80,10 +80,12 @@
                     </div>
                   </div>
                   
+                  @can('posts.publish', Auth::user())
                   <div class="form-check col-lg-2 pull-left" style="margin-top:40px;">
                     <input type="checkbox" class="form-check-input" value="1" id="exampleCheck1" name="status">                  
                     <label class="form-check-label" for="exampleCheck1">Publish</label>
                   </div>
+                  @endcan
                   <br>
                   <br>
                   <br>

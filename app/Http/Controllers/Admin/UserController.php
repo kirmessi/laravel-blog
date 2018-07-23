@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\admin\admin;
 use App\Model\admin\role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -35,8 +36,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->can('users.create')) {
         $roles = role::all();
          return view('admin/user/create',compact('roles'));
+        }
+     return redirect (route('admin.home'));
     }
 
     /**
@@ -86,9 +90,14 @@ class UserController extends Controller
      */
     public function edit($id)
 
-    {   $roles = role::all();
+    {  
+        if (Auth::user()->can('users.update')) {
+        $roles = role::all();
         $user = admin::find($id);
         return view('admin/user/edit', compact('user','roles'));
+        }
+
+        return redirect (route('admin.home'));
     }
 
     /**
